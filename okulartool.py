@@ -34,7 +34,7 @@ for i  in range(len(titles)):
 		bookmarks +="BookmarkBegin\n"
 		bookmarks +="BookmarkTitle: "+str(titles[i])+"\n"
 		bookmarks +="BookmarkLevel: 1"+"\n"
-		bookmarks +="BookmarkPageNumber: "+str(page_numbers[i])+"\n"
+		bookmarks +="BookmarkPageNumber: "+str(int(page_numbers[i])+1)+"\n"
 
 bmfile="bookmarks.txt"
 if os.path.isfile(bmfile):
