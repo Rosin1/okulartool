@@ -1,7 +1,10 @@
 #!/usr/bin/python3
+# repository: github.com/umitkabuli/okulartool
+# This script import to pdf okular bookmarks 
 import sys
 import os
 import codecs
+import cgi
 import subprocess
 import tempfile
 import pathlib
@@ -18,18 +21,21 @@ if not pdf_file.is_file():
 
 localuri=""		
 localuri="file://"+str(pdf_file.resolve())
-print(localuri)
 tree=ET.parse(okularbm)		
 root=tree.getroot()
 page_numbers = []
 titles  = []
 bookmarks =""
+title=""
+output=""
 for folder in root.iter('folder'):
-		if localuri == folder.attrib['href']:
-				for bookmark in folder.iter('bookmark'):
-						page_numbers.append(bookmark.attrib['href'].split('#')[1].split(';')[0])
-						titles.append(bookmark.find('title').text)		
-
+    if localuri == folder.attrib['href']:
+        for bookmark in folder.iter('bookmark'):
+            page_numbers.append(bookmark.attrib['href'].split('#')[1].split(';')[0])
+            title=bookmark.find('title').text.encode("ascii","xmlcharrefreplace").decode()
+            print(title)
+            titles.append(title)  
+   
 for i  in range(len(titles)):
 		bookmarks +="BookmarkBegin\n"
 		bookmarks +="BookmarkTitle: "+str(titles[i])+"\n"
@@ -73,9 +79,9 @@ if os.path.isfile(newpdf):
 print("'"+newpdf+"' yazılıyor...")
 result=os.system("pdftk '" + str(pdf_file) + "' update_info " + newbookmarks + " output '" + newpdf+"'")
 
-if os.path.isfile(bmfile):
-    os.remove(bmfile)
+#if os.path.isfile(bmfile):
+    #os.remove(bmfile)
 
-if os.path.isfile(newbookmarks):
-    os.remove(newbookmarks)
-
+#if os.path.isfile(newbookmarks):
+    #os.remove(newbookmarks)
+exit(0)
