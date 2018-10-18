@@ -3,10 +3,6 @@
 # This script import to pdf okular bookmarks 
 import sys
 import os
-import codecs
-import cgi
-import subprocess
-import tempfile
 import pathlib
 import xml.etree.ElementTree as ET
 okularbm=pathlib.Path.home().joinpath('.local', 'share', 'okular', 'bookmarks.xml')
